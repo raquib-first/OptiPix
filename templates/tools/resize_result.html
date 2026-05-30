@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Resize Results | OptiPix{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'tools/resize_result.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="result-container">
+    
+    <!-- Success Badge & Header -->
+    <div class="result-header">
+        <div class="success-icon-badge">✓</div>
+        <h1>Resizing Complete</h1>
+        <p>Your image has been successfully resized and optimized.</p>
+    </div>
+
+    <!-- Analytics Dashboard Cards -->
+    <div class="metrics-grid">
+        <div class="metric-card main-reduction">
+            <span class="metric-label">Size Reduction</span>
+            <div class="metric-value text-gradient">{{ obj.compression_percentage }}%</div>
+            <p class="metric-desc">Total space saved on your device.</p>
+        </div>
+        
+        <div class="metric-card-split">
+            <div class="sub-metric">
+                <span class="sub-label">File Size</span>
+                <p>Original: <strong>{{ obj.original_size }} KB</strong></p>
+                <p>New Size: <strong class="color-success">{{ obj.compressed_size }} KB</strong></p>
+            </div>
+            <div class="sub-metric border-top">
+                <span class="sub-label">Dimensions</span>
+                <p>Original: <strong>{{ original_dim }}</strong></p>
+                <p>New Dimensions: <strong class="color-primary">{{ new_dim }}</strong></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Side-by-Side Preview Blocks -->
+    <h3 class="preview-title">Before & After Comparison</h3>
+    <div class="preview-matrix">
+        <div class="preview-card">
+            <div class="preview-badge">Original Image</div>
+            <div class="img-wrapper">
+                <img src="{{ obj.original_image.url }}" alt="Original Image">
+            </div>
+        </div>
+        
+        <div class="preview-card">
+            <div class="preview-badge active-badge">Resized Image</div>
+            <div class="img-wrapper">
+                <img src="{{ obj.processed_image.url }}" alt="Resized Image">
+            </div>
+        </div>
+    </div>
+
+    <!-- Action Controls -->
+    <div class="action-footer-row">
+        <a href="{% url 'resize' %}" class="btn-secondary">
+            <span>Resize Another Image</span>
+        </a>
+        <a href="{{ obj.processed_image.url }}" download class="btn-primary">
+            <span>Download Image</span>
+        </a>
+    </div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,135 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Thumbnail Result | OptiPix{% endblock %}
+
+{% block extra_css %}
+<!-- We reuse your compression styles since the layout structure is identical! -->
+<link rel="stylesheet" href="{% static 'tools/thumbnail_result.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="result-container">
+    
+    <!-- Header Section -->
+    <div class="result-header">
+        <div class="success-spark-badge"><i class="fas fa-check-circle"></i> THUMBNAIL READY</div>
+        <h1>Your Thumbnail is Ready</h1>
+        <p>Your image has been resized, optimized, and is ready for download.</p>
+    </div>
+
+    <!-- Image Details Summary -->
+    <div class="performance-metrics-banner">
+        <div class="metric-row-wrapper">
+            <div class="metric-block">
+                <span class="block-title"><i class="fas fa-image"></i> Original Size</span>
+                <span class="block-value">{{ obj.original_size }} <span class="size-unit">KB</span></span>
+            </div>
+            
+            <div class="metric-divider"><i class="fas fa-chevron-right"></i></div>
+
+            <div class="metric-block">
+                <span class="block-title"><i class="fas fa-compress-alt"></i> New Size</span>
+                <span class="block-value color-success">{{ obj.compressed_size }} <span class="size-unit">KB</span></span>
+            </div>
+
+            <div class="metric-divider mobile-hide">|</div>
+
+            <div class="metric-block">
+                <span class="block-title"><i class="fas fa-expand-arrows-alt"></i> Dimensions</span>
+                <span class="block-value color-primary">{{ thumb_size }}</span>
+            </div>
+        </div>
+        
+        <!-- Progress Bar showing space saved -->
+        <div class="efficiency-track">
+            <div class="efficiency-bar" style="width: {{ obj.compression_percentage }}%"></div>
+        </div>
+    </div>
+
+    <!-- Before & After Interactive Slider -->
+    <h3 class="panel-section-title"><i class="fas fa-eye"></i> Compare Images</h3>
+    <p class="panel-section-subtitle">Drag the slider left and right to compare the original image with your new thumbnail.</p>
+    
+    <div class="comparison-slider-viewport">
+        <!-- Before Frame (Original Image) -->
+        <div class="img-layer original-layer">
+            <img src="{{ obj.original_image.url }}" alt="Original Image">
+            <span class="layer-indicator badge-left">Original</span>
+        </div>
+        
+        <!-- After Frame (Thumbnail Image) -->
+        <div class="img-layer compressed-layer" id="compressed-layer">
+            <img src="{{ obj.processed_image.url }}" alt="Thumbnail Result">
+            <span class="layer-indicator badge-right">Thumbnail</span>
+        </div>
+
+        <!-- Draggable UI Slider Line -->
+        <div class="slider-handle" id="slider-handle">
+            <div class="handle-button">
+                <i class="fas fa-chevron-left"></i>
+                <i class="fas fa-chevron-right"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="control-footer-row">
+        <a href="{% url 'compress' %}" class="btn-action-dim">
+            <i class="fas fa-arrow-left"></i> <span>Create Another Thumbnail</span>
+        </a>
+        <a href="{{ obj.processed_image.url }}" download class="btn-action-bright">
+            <span>Download Thumbnail</span>
+            <span class="action-icon"><i class="fas fa-download"></i></span>
+        </a>
+    </div>
+
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const viewport = document.querySelector('.comparison-slider-viewport');
+        const compressedLayer = document.getElementById('compressed-layer');
+        const handle = document.getElementById('slider-handle');
+        let isDragging = false;
+
+        function setSliderPosition(xPercent) {
+            const clampedPercent = Math.max(0, Math.min(100, xPercent));
+            handle.style.left = `${clampedPercent}%`;
+            compressedLayer.style.width = `${clampedPercent}%`;
+        }
+
+        function processMove(clientX) {
+            const rect = viewport.getBoundingClientRect();
+            const positionX = clientX - rect.left;
+            const xPercent = (positionX / rect.width) * 100;
+            setSliderPosition(xPercent);
+        }
+
+        // Mouse Events
+        handle.addEventListener('mousedown', () => isDragging = true);
+        window.addEventListener('mouseup', () => isDragging = false);
+        window.addEventListener('mousemove', (e) => {
+            if (!isDragging) return;
+            processMove(e.clientX);
+        });
+
+        // Mobile Touch Events
+        handle.addEventListener('touchstart', () => isDragging = true);
+        window.addEventListener('touchend', () => isDragging = false);
+        window.addEventListener('touchmove', (e) => {
+            if (!isDragging) return;
+            if (e.touches.length > 0) {
+                processMove(e.touches[0].clientX);
+            }
+        });
+
+        // Reset to middle on screen resize
+        window.addEventListener('resize', () => {
+            setSliderPosition(50);
+        });
+    });
+</script>
+{% endblock %}

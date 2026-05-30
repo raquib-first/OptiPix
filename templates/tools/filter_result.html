@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Filter Result | OptiPix{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'tools/filter_result.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="result-workspace">
+
+    <!-- Header Section -->
+    <div class="result-header">
+        <div class="status-badge"><i class="fas fa-check-circle"></i> FILTER APPLIED SUCCESSFULLY</div>
+        <h1>Applied Filter: <span class="highlight-text">{{ filter_used }}</span></h1>
+        <p>Your filter has been applied and your new image is ready.</p>
+    </div>
+
+    <!-- Stats Dashboard Grid -->
+    <div class="stats-dashboard">
+        <div class="stat-card">
+            <span class="stat-label"><i class="fas fa-file-image"></i> Original Size</span>
+            <span class="stat-value">{{ obj.original_size }} <span class="unit">KB</span></span>
+        </div>
+        
+        <div class="stat-card accent-card">
+            <span class="stat-label"><i class="fas fa-bolt"></i> New Size</span>
+            <span class="stat-value">{{ obj.compressed_size }} <span class="unit">KB</span></span>
+        </div>
+
+        <div class="stat-card">
+            <span class="stat-label"><i class="fas fa-chart-line"></i> Size Difference</span>
+            <!-- Checks if the delta is a positive compression or expansion -->
+            <span class="stat-value {% if obj.compression_percentage >= 0 %}text-success{% else %}text-warning{% endif %}">
+                {{ obj.compression_percentage }} <span class="unit">%</span>
+            </span>
+        </div>
+    </div>
+
+    <!-- Image Comparison Workplace Grid -->
+    <h3 class="section-title"><i class="fas fa-balance-scale"></i> Before & After Comparison</h3>
+    <div class="comparison-grid">
+        
+        <!-- Original Frame Card -->
+        <div class="preview-card">
+            <div class="card-header-tag tag-muted">Original Image</div>
+            <div class="image-viewport">
+                <img src="{{ obj.original_image.url }}" alt="Original Image">
+            </div>
+        </div>
+
+        <!-- Filtered Processed Frame Card -->
+        <div class="preview-card">
+            <div class="card-header-tag tag-accent">{{ filter_used }} Filter</div>
+            <div class="image-viewport">
+                <img src="{{ obj.processed_image.url }}" alt="Filtered Image">
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Bottom Actions Control Dock -->
+    <div class="action-footer-dock">
+        <a href="{% url 'filter' %}" class="btn-secondary">
+            <i class="fas fa-undo-alt"></i> Filter Another Image
+        </a>
+        <a href="{{ obj.processed_image.url }}" download class="btn-primary">
+            <span>Download Image</span>
+            <span class="icon-wrapper"><i class="fas fa-cloud-download-alt"></i></span>
+        </a>
+    </div>
+
+</div>
+{% endblock %}

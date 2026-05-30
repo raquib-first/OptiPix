@@ -1,0 +1,235 @@
+/* --- Core Container Tool Frame --- */
+
+:root {
+    /* Core Branding Colors */
+    --primary: #0062ff;
+    --primary-dark: #004ecc;
+    --secondary: #0f172a;       /* Dark slate for high-contrast headers */
+    
+    /* Text Visibility Variables (The Fix) */
+    --text-main: #334155;       /* Charcoal for body text and long descriptions */
+    --text-light: #64748b;      /* Muted slate for subtitle/secondary labels */
+    
+    /* Interface Ecosystem */
+    --white: #ffffff;
+    --bg-soft: #fafbff;
+    --transition: all 0.25s ease-in-out;
+}
+.tool-container {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 2rem 0;
+}
+
+.tool-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.tool-header h1 {
+    font-size: 2.5rem;
+    color: var(--white)
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.5px;
+}
+
+.tool-header p {
+    color: var(--white);
+    font-size: 1.05rem;
+}
+
+/* --- Primary Operational Card Layout --- */
+.tool-card-main {
+    background: var(--white);
+    padding: 3rem;
+    border-radius: 24px;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.04);
+    border: 1px solid #f1f5f9;
+}
+
+.form-body {
+    margin-top: 2rem;
+}
+
+/* --- Drag & Drop Interactive Upload Box --- */
+.upload-area {
+    border: 2px dashed #e2e8f0;
+    border-radius: 16px;
+    padding: 3rem 1rem;
+    text-align: center;
+    transition: var(--transition);
+    cursor: pointer;
+    background: #f8fafc;
+    position: relative;
+}
+
+.upload-area:hover, .upload-area.active {
+    border-color: var(--primary);
+    background: #f0f4ff;
+}
+
+.upload-icon {
+    font-size: 2.5rem;
+    margin-bottom: 0.8rem;
+    display: block;
+}
+
+.upload-area p {
+    font-size: 1.05rem;
+    color: var(--text-main);
+}
+
+.upload-area span {
+    color: var(--primary);
+    font-weight: 600;
+    text-decoration: underline;
+}
+
+.hidden-input {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.file-name {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    color: #166534;
+    font-weight: 600;
+}
+
+/* --- Basic Input Field Typography Groups --- */
+.field-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    margin-bottom: 1.5rem;
+}
+
+.section-label {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--secondary);
+}
+
+/* --- Custom Dropdown Selection Wrap Element --- */
+.select-wrapper {
+    position: relative;
+}
+
+.select-wrapper select {
+    width: 100%;
+    padding: 1rem;
+    font-size: 1rem;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    background-color: #f8fafc;
+    color: var(--text-main);
+    cursor: pointer;
+    appearance: none;
+    outline: none;
+    font-weight: 500;
+    transition: var(--transition);
+}
+
+.select-wrapper select:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12);
+}
+
+.select-wrapper::after {
+    content: "▼";
+    font-size: 0.7rem;
+    color: var(--text-light);
+    position: absolute;
+    right: 1.2rem;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+
+/* --- Technical Platform Info Alert Container --- */
+.info-alert-box {
+    background-color: #f8fafc;
+    border-left: 4px solid #cbd5e1;
+    padding: 1.2rem;
+    border-radius: 0 12px 12px 0;
+    display: flex;
+    gap: 12px;
+    margin-bottom: 1.5rem;
+}
+
+.info-badge-icon {
+    font-size: 1.2rem;
+    color: var(--text-light);
+    font-weight: bold;
+}
+
+.info-alert-box p {
+    font-size: 0.85rem;
+    color: var(--text-main);
+    line-height: 1.6;
+}
+
+.info-alert-box strong {
+    color: var(--secondary);
+}
+
+/* --- Exception / Runtime Failure Alert Callout Box --- */
+.error-alert-box {
+    background-color: #fef2f2;
+    border: 1px solid #fee2e2;
+    padding: 1rem 1.2rem;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 1.5rem;
+}
+
+.error-icon {
+    font-size: 1.2rem;
+}
+
+.error-text {
+    font-size: 0.9rem;
+    color: #991b1b;
+}
+
+.error-text strong {
+    font-weight: 700;
+}
+
+/* --- Action Submit Button --- */
+.btn-action {
+    width: 100%;
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 1.2rem;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    transition: var(--transition);
+    margin-top: 1rem;
+}
+
+.btn-action:hover {
+    background: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(99, 102, 241, 0.3);
+}
+
+/* --- Responsive Media Viewbreaks --- */
+@media (max-width: 650px) {
+    .tool-card-main { padding: 1.5rem; }
+}

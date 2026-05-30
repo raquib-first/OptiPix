@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Resize Image | OptiPix{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'tools/resize.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="tool-container">
+
+    <div class="tool-header">
+        <h1>Resize Image</h1>
+        <p>Change your image dimensions by entering exact pixels or adjusting by a percentage.</p>
+    </div>
+
+    <div class="tool-card-main">
+        <form method="POST" enctype="multipart/form-data" class="upload-form">
+            {% csrf_token %}
+
+            <!-- Upload Zone Area -->
+            <div class="upload-area" id="drop-zone">
+                <div class="upload-icon">📐</div>
+                <p>Drag & drop your image here or <span>browse</span></p>
+                <input type="file" name="image" id="file-input" required class="hidden-input">
+                <div id="file-name-display" class="file-name"></div>
+            </div>
+
+            <div class="form-body">
+                
+                <!-- Scaling Configuration Dropdown Selector -->
+                <div class="field-group">
+                    <label class="section-label">Resize By</label>
+                    <div class="select-wrapper">
+                        <select name="mode" id="mode" onchange="toggleMode()">
+                            <option value="pixel">Pixels</option>
+                            <option value="percentage">Percentage</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Panel 1: Pixel Sizing Fields -->
+                <div id="pixel-box" class="mode-panel">
+                    <div class="input-row-twin">
+                        <div class="field-group">
+                            <label for="width">Width (px)</label>
+                            <input type="number" name="width" placeholder="e.g. 1920">
+                        </div>
+                        <div class="field-group">
+                            <label for="height">Height (px)</label>
+                            <input type="number" name="height" placeholder="e.g. 1080">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Panel 2: Percentage Entry Field -->
+                <div id="percentage-box" class="mode-panel hidden-panel">
+                    <div class="field-group">
+                        <label for="percentage">Percentage Size</label>
+                        <div class="num-percent-wrapper">
+                            <input type="number" name="percentage" id="percent-num-input" min="1" max="300" value="100">
+                            <span class="percent-suffix">%</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Execution Action Button -->
+            <button type="submit" class="btn-action">
+                <span>Resize Image</span>
+                <span class="icon">⚡</span>
+            </button>
+        </form>
+    </div>
+
+</div>
+
+<script>
+function toggleMode() {
+    const mode = document.getElementById("mode").value;
+    const pixelBox = document.getElementById("pixel-box");
+    const percentageBox = document.getElementById("percentage-box");
+
+    if (mode === "percentage") {
+        pixelBox.classList.add("hidden-panel");
+        percentageBox.classList.remove("hidden-panel");
+    } else {
+        pixelBox.classList.remove("hidden-panel");
+        percentageBox.classList.add("hidden-panel");
+    }
+}
+
+document.getElementById('file-input').addEventListener('change', function(e){
+    const dropZone = document.getElementById('drop-zone');
+    const display = document.getElementById('file-name-display');
+    if(e.target.files.length > 0){
+        display.innerText = `Selected Image: ${e.target.files[0].name}`;
+        dropZone.classList.add('active');
+    }
+});
+</script>
+{% endblock %}

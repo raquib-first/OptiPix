@@ -1,0 +1,197 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}OptiPix | Easy Image Processing Tool{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'home.css' %}">
+{% endblock %}
+
+{% block content %}
+<main class="home-main">
+    
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="badge-container">
+                <span class="badge">
+                    <i class="fas fa-cubes"></i> Powered by Django + Pillow
+                    <span class="badge-pulse"></span>
+                </span>
+            </div>
+            <h1>Smart & Simple <br><span class="gradient-text">Image Processing</span></h1>
+            <p>Compress, resize, filter, and convert your images instantly. Your original files are handled safely in memory and processed locally without quality distortion.</p>
+            <div class="hero-btns">
+                <a href="#tools" class="btn-primary">
+                    <span>Explore Image Tools</span>
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+                <a href="/tools/batch/" class="btn-secondary">
+                    <i class="fas fa-layer-group"></i> Process Multiple Images
+                </a>
+            </div>
+            <div class="hero-stats">
+                <div><i class="fas fa-bolt"></i> Fast File Saving</div>
+                <div><i class="fas fa-microchip"></i> Smart Aspect Ratio Guard</div>
+            </div>
+        </div>
+        <div class="hero-orb"></div>
+    </section>
+
+    <!-- The Pipeline Execution Cycle -->
+    <section class="guide-section" id="how-it-works">
+        <div class="guide-intro">
+            <span class="eyebrow">How It Works</span>
+            <h2>Simple Step-by-Step Processing <span class="lightning">⟡</span></h2>
+            <div class="privacy-pill">
+                <i class="fas fa-shield-alt"></i> <strong>Safe & Private:</strong> Images are saved securely to your local folder and cleared out regularly.
+            </div>
+        </div>
+
+        <div class="guide-grid">
+            <div class="steps-flow">
+                <div class="step-item">
+                    <div class="step-idx">01</div>
+                    <div class="step-content">
+                        <h4><i class="fas fa-cloud-upload"></i> Upload & Register File</h4>
+                        <p>The app safely captures your uploaded image, reads its data, and readies it for editing without modifying your actual file on disk.</p>
+                    </div>
+                </div>
+                <div class="step-item">
+                    <div class="step-idx">02</div>
+                    <div class="step-content">
+                        <h4><i class="fas fa-calculator"></i> Apply Edits & Scaling</h4>
+                        <p>The backend app performs your chosen task—whether that is changing dimensions, cropping margins, or tuning image clarity.</p>
+                    </div>
+                </div>
+                <div class="step-item">
+                    <div class="step-idx">03</div>
+                    <div class="step-content">
+                        <h4><i class="fas fa-chart-pie"></i> Calculate Metrics & Output</h4>
+                        <p>The newly generated image is saved, size optimization statistics are calculated automatically, and your download is generated instantly.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tech-insight">
+                <div class="insight-card">
+                    <div class="card-glow"></div>
+                    <h5><i class="fas fa-terminal"></i> Built-In Features</h5>
+                    <p>Our background processor takes care of the small details so you do not have to worry about broken formatting:</p>
+                    <ul class="engine-features-list">
+                        <li><i class="fas fa-percent"></i> <strong>File Size Track:</strong> Shows you exactly how much space you saved down to two decimal spots.</li>
+                        <li><i class="fas fa-crop-simple"></i> <strong>Stretch Protection:</strong> Locks your image's real height and width proportions to prevent blurring or distortion.</li>
+                        <li><i class="fas fa-file-zipper"></i> <strong>ZIP Batching:</strong> Handles dozens of separate photos concurrently and drops them into a single file folder.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Complete Dashboard Grid Mapping Every View Endpoint -->
+    <section id="tools" class="dashboard-section">
+        <h3 class="section-title"><i class="fas fa-sliders"></i> Image Toolkit</h3>
+        <div class="dashboard-grid">
+            
+            <!-- Compress View -->
+            <div class="tool-card">
+                <div class="card-header">
+                    <div class="icon-wrapper"><span class="icon"><i class="fas fa-file-invoice"></i></span></div>
+                    <span class="tag">Optimize</span>
+                </div>
+                <h3>Image Compressor</h3>
+                <p>Reduce image file size instantly. Shrink heavy images down to a fraction of their weight while keeping the layout sharp and crisp.</p>
+                <a href="/tools/compress/" class="btn-card">Open Tool <i class="fas fa-arrow-right"></i></a>
+            </div>
+
+            <!-- Resize View -->
+            <div class="tool-card">
+                <div class="card-header">
+                    <div class="icon-wrapper"><span class="icon"><i class="fas fa-expand-arrows-alt"></i></span></div>
+                </div>
+                <h3>Canvas Resizer</h3>
+                <p>Change your image dimensions. Type custom pixel targets or use percentage scaling to resize images perfectly for web screens.</p>
+                <a href="/tools/resize/" class="btn-card">Open Tool <i class="fas fa-arrow-right"></i></a>
+            </div>
+
+            <!-- Convert View -->
+            <div class="tool-card">
+                <div class="card-header">
+                    <div class="icon-wrapper"><span class="icon"><i class="fas fa-shuffle"></i></span></div>
+                </div>
+                <h3>Format Converter</h3>
+                <p>Switch image formats in one click. Convert cleanly between standard web extensions like PNG, JPG, and WebP without data loss.</p>
+                <a href="/tools/convert/" class="btn-card">Open Tool <i class="fas fa-arrow-right"></i></a>
+            </div>
+
+            <!-- Enhance View -->
+            <div class="tool-card">
+                <div class="card-header">
+                    <div class="icon-wrapper"><span class="icon"><i class="fas fa-wand-magic-sparkles"></i></span></div>
+                    <span class="tag blue">Tuning</span>
+                </div>
+                <h3>Image Enhancer</h3>
+                <p>Fine-tune clarity. Move interactive sliders to control brightness depth, sharpen blurry lines, and pop color saturation levels.</p>
+                <a href="/tools/enhance/" class="btn-card">Open Tool <i class="fas fa-arrow-right"></i></a>
+            </div>
+
+            <!-- Crop View -->
+            <div class="tool-card">
+                <div class="card-header">
+                    <div class="icon-wrapper"><span class="icon"><i class="fas fa-crop"></i></span></div>
+                </div>
+                <h3>Smart Cropper</h3>
+                <p>Cut off unwanted borders. Clip photo boundaries down into perfect square presets, wide layouts, or custom square ratios.</p>
+                <a href="/tools/crop/" class="btn-card">Open Tool <i class="fas fa-arrow-right"></i></a>
+            </div>
+
+            <!-- Filter View -->
+            <div class="tool-card">
+                <div class="card-header">
+                    <div class="icon-wrapper"><span class="icon"><i class="fas fa-palette"></i></span></div>
+                </div>
+                <h3>Color Filters</h3>
+                <p>Apply custom color layers. Swap photo tones to cool blues, rich monochrome darks, warm film styles, and sharp city accents.</p>
+                <a href="/tools/filter/" class="btn-card">Open Tool <i class="fas fa-arrow-right"></i></a>
+            </div>
+
+            <!-- Thumbnail View -->
+            <div class="tool-card">
+                <div class="card-header">
+                    <div class="icon-wrapper"><span class="icon"><i class="fas fa-th"></i></span></div>
+                    <span class="tag text-amber">Square</span>
+                </div>
+                <h3>Thumbnail Maker</h3>
+                <p>Generate quick avatars and profile clips. Shrink large image files into tidy, square grid thumbnails optimized for loading speed.</p>
+                <a href="/tools/thumbnail/" class="btn-card">Open Tool <i class="fas fa-arrow-right"></i></a>
+            </div>
+
+            <!-- Batch View -->
+            <div class="tool-card">
+                <div class="card-header">
+                    <div class="icon-wrapper"><span class="icon"><i class="fas fa-file-zipper"></i></span></div>
+                    <span class="tag purple">Bulk Zip</span>
+                </div>
+                <h3>Batch Processing</h3>
+                <p>Save time on large projects. Upload multiple distinct image files simultaneously, edit them at once, and export as a single ZIP archive.</p>
+                <a href="/tools/batch/" class="btn-card">Open Tool <i class="fas fa-arrow-right"></i></a>
+            </div>
+
+        </div>
+    </section>
+</main>
+
+<script>
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if(entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, { threshold: 0.02 });
+    
+    document.querySelectorAll('.tool-card, .step-item, .tech-insight').forEach(el => {
+        observer.observe(el);
+    });
+</script>
+{% endblock %}

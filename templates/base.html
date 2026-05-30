@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>{% block title %}OptiPix | Free Web Image Tools{% endblock %}</title>
+    <meta name="description" content="Fast, private, and secure image compression, resizing, and conversion tools directly in your browser.">
+    {% load static %}
+    
+    <!-- Preconnect & Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800;14..32,900&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome 6 (free) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Base CSS -->
+    <link rel="stylesheet" href="{% static 'base.css' %}">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <div class="noise-bg"></div>
+    <div class="cursor-glow"></div>
+
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-container">
+                <a href="/" class="logo-link">
+                    <div class="logo">
+                        <span class="logo-text">Opti<span>Pix</span></span>
+                        <span class="logo-badge">α</span>
+                    </div>
+                </a>
+                
+                <input type="checkbox" id="nav-toggle" class="nav-toggle">
+                <label for="nav-toggle" class="nav-toggle-label">
+                    <i class="fas fa-bars"></i>
+                </label>
+
+                <ul class="nav-links">
+                    <li><a href="/" class="nav-item {% if request.path == '/' %}active{% endif %}">Home</a></li>
+                    
+                    <!-- Simplified Dropdown Menu Menu -->
+                    <li class="nav-dropdown-wrapper">
+                        <span class="nav-item dropdown-trigger">
+                            Image Tools <i class="fas fa-chevron-down dropdown-arrow"></i>
+                        </span>
+                        <ul class="dropdown-menu">
+                            <li><a href="/tools/compress/"><i class="fas fa-compress-alt icon-fw"></i> Compress Image</a></li>
+                            <li><a href="/tools/resize/"><i class="fas fa-expand-arrows-alt icon-fw"></i> Resize Canvas</a></li>
+                            <li><a href="/tools/convert/"><i class="fas fa-shuffle icon-fw"></i> Convert Format</a></li>
+                            <li><a href="/tools/thumbnail/"><i class="fas fa-th icon-fw"></i> Make Thumbnails</a></li>
+                            <li><a href="/tools/crop/"><i class="fas fa-crop icon-fw"></i> Crop Aspect Ratio</a></li>
+                            <li><a href="/tools/enhance/"><i class="fas fa-wand-magic-sparkles icon-fw"></i> Enhance Quality</a></li>
+                            <li><a href="/tools/filter/"><i class="fas fa-palette icon-fw"></i> Photo Filters</a></li>
+                        </ul>
+                    </li>
+
+                    <li><a href="/tools/batch/" class="nav-item-btn">Batch Mode <i class="fas fa-layer-group"></i></a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main class="content-wrapper">
+        <div class="container">
+            {% block content %}
+            <!-- Default child template inject point -->
+            {% endblock %}
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="footer-logo">Opti<span>Pix</span></div>
+                    <p>Fast, secure, and private image editing tools. All files are safely processed using temporary system memory buffers.</p>
+                    <div class="social-icons">
+                        <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" aria-label="Discord"><i class="fab fa-discord"></i></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4>Core Utilities</h4>
+                    <ul>
+                        <li><a href="/tools/compress/">Image Compressor</a></li>
+                        <li><a href="/tools/resize/">Canvas Resizer</a></li>
+                        <li><a href="/tools/convert/">Format Converter</a></li>
+                        <li><a href="/tools/crop/">Image Cropper</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Photo Filters</h4>
+                    <ul>
+                        <li><a href="/tools/enhance/">Smart Enhancer</a></li>
+                        <li><a href="/tools/filter/">Color Filters</a></li>
+                        <li><a href="/tools/thumbnail/">Thumbnail Generator</a></li>
+                        <li><a href="/tools/batch/">Batch ZIP Processing</a></li>
+                    </ul>
+                </div>
+                <div class="footer-info">
+                    <p class="mca-tag"><i class="fas fa-graduation-cap"></i> MCA Project 2026</p>
+                    <p class="university-tag"><i class="fas fa-university"></i> University of Delhi</p>
+                    <p class="copyright">&copy; 2026 OptiPix Engine. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Track mouse movement smoothly for cursor lighting animations
+        document.addEventListener('mousemove', (e) => {
+            const glow = document.querySelector('.cursor-glow');
+            if (glow) {
+                glow.style.transform = `translate(${e.clientX - 150}px, ${e.clientY - 150}px)`;
+            }
+        });
+
+        // Set the active class onto navigation elements matching the current URL path
+        const currentPath = window.location.pathname;
+        
+        document.querySelectorAll('.nav-item, .dropdown-menu a').forEach(link => {
+            if (link.getAttribute('href') === currentPath) {
+                link.classList.add('active');
+                
+                const parentDropdown = link.closest('.nav-dropdown-wrapper');
+                if (parentDropdown) {
+                    parentDropdown.querySelector('.dropdown-trigger').classList.add('active');
+                }
+            }
+        });
+    </script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

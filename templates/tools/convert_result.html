@@ -1,0 +1,61 @@
+{% extends 'home.html' %}
+{% load static %}
+
+{% block title %}Conversion Results | OptiPix{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'tools/convert_result.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="result-container">
+    
+    <!-- Header Message Interface -->
+    <div class="result-header">
+        <div class="success-checkmark-badge">✓</div>
+        <h1>Conversion Successful</h1>
+        <p>Your file has been successfully changed into your chosen format.</p>
+    </div>
+
+    <!-- Centralized Metrics Display Panel -->
+    <div class="conversion-summary-card">
+        <div class="summary-grid">
+            <div class="summary-node">
+                <span class="node-label">Original Size</span>
+                <div class="node-value">{{ obj.original_size }} <span class="unit">KB</span></div>
+            </div>
+            
+            <div class="summary-node separator">
+                <span class="node-label">Converted Size</span>
+                <div class="node-value text-success">{{ obj.compressed_size }} <span class="unit">KB</span></div>
+            </div>
+
+            <div class="summary-node">
+                <span class="node-label">Size Difference</span>
+                <div class="node-value text-primary">{{ obj.compression_percentage }}%</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Render Output Preview Frame -->
+    <h3 class="preview-section-title">Converted Image Preview</h3>
+    <div class="display-preview-card">
+        <div class="rendered-badge">New Image Preview</div>
+        <div class="image-render-viewport">
+            <img src="{{ obj.processed_image.url }}" alt="Converted file preview">
+        </div>
+    </div>
+
+    <!-- Action Workflow Controls Alignment -->
+    <div class="action-footer-alignment">
+        <a href="{% url 'convert' %}" class="btn-action-outline">
+            <span>Convert Another Image</span>
+        </a>
+        <a href="{{ obj.processed_image.url }}" download class="btn-action-solid">
+            <span>Download Converted Image</span>
+            <span class="btn-icon">📥</span>
+        </a>
+    </div>
+
+</div>
+{% endblock %}

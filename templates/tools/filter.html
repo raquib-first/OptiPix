@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Apply Filters | OptiPix{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'tools/filter.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="workspace-wrapper">
+    
+    <!-- Left column: Configuration Panel -->
+    <div class="control-panel-card">
+        <div class="panel-header">
+            <div class="tool-badge"><i class="fas fa-sliders-h"></i> FILTERS</div>
+            <h2>Apply Photo Filters</h2>
+            <p>Choose an image and pick a custom look to instantly update its style.</p>
+        </div>
+
+        <form method="POST" enctype="multipart/form-data" class="modern-form">
+            {% csrf_token %}
+
+            <!-- File Upload Field -->
+            <div class="form-group">
+                <label class="field-label"><i class="fas fa-cloud-upload-alt"></i> Upload Image</label>
+                <div class="drag-drop-zone" id="dropZone">
+                    <input type="file" name="image" id="imageInput" accept="image/*" required>
+                    <div class="upload-prompt" id="uploadPrompt">
+                        <div class="upload-icon-circle">
+                            <i class="fas fa-images"></i>
+                        </div>
+                        <p class="main-prompt-text">Click to browse or drag your image here</p>
+                        <p class="sub-prompt-text">Supports PNG, JPG, and WebP (Max 10MB)</p>
+                    </div>
+                    
+                    <!-- Hidden preview container -->
+                    <div class="upload-preview-container" id="previewContainer" style="display: none;">
+                        <img id="filePreview" src="#" alt="Image Preview">
+                        <div class="file-info-overlay">
+                            <span id="fileNameText">image.jpg</span>
+                            <button type="button" class="btn-clear-file" id="clearFileBtn"><i class="fas fa-times"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filter Selection Dropdown -->
+            <div class="form-group">
+                <label class="field-label" for="filterSelect"><i class="fas fa-photo-video"></i> Choose Filter</label>
+                <div class="custom-select-wrapper">
+                    <select name="filter" id="filterSelect" required>
+                        <option value="original" selected>Original (None)</option>
+                        <option value="fresh">Fresh (Cool Contrast)</option>
+                        <option value="night">Night (Deep Indigo tones)</option>
+                        <option value="city">City (Urban Crisp Mood)</option>
+                        <option value="clear">Clear (Vivid Pop)</option>
+                        <option value="island">Island (Warm Teal & Orange)</option>
+                        <option value="mountain">Mountain (Faded Moss Atmospheric)</option>
+                        <option value="mono">Mono (High Contrast Black & White)</option>
+                        <option value="vintage">Vintage (Warm Matte Grain)</option>
+                    </select>
+                    <div class="select-arrow-indicator"><i class="fas fa-chevron-down"></i></div>
+                </div>
+            </div>
+
+            <!-- Process Action Submission Button -->
+            <button type="submit" class="btn-submit-processing">
+                <span>Apply Filter</span>
+                <span class="btn-icon-box"><i class="fas fa-magic"></i></span>
+            </button>
+        </form>
+    </div>
+
+    <!-- Right column: Informational Sidebar -->
+    <div class="info-sidebar-card">
+        <h3><i class="fas fa-info-circle"></i> How it works</h3>
+        <p>This tool adjusts color balance, saturation, and lighting tones directly on the server to apply beautiful styles to your image without losing depth details.</p>
+        
+        <div class="tip-box-alert">
+            <i class="fas fa-lightbulb"></i>
+            <div>
+                <strong>Pro Tip:</strong> Try the <strong>Mono</strong> or <strong>Vintage</strong> filters on outdoor landscape photos for a clean, dramatic look.
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Interactive UI JavaScript Logic -->
+<script>
+    const imageInput = document.getElementById('imageInput');
+    const dropZone = document.getElementById('dropZone');
+    const uploadPrompt = document.getElementById('uploadPrompt');
+    const previewContainer = document.getElementById('previewContainer');
+    const filePreview = document.getElementById('filePreview');
+    const fileNameText = document.getElementById('fileNameText');
+    const clearFileBtn = document.getElementById('clearFileBtn');
+
+    imageInput.addEventListener('change', function() {
+        const file = this.files[0];
+        if (file) {
+            const reader = new FileReader();
+            fileNameText.textContent = file.name;
+            
+            reader.addEventListener('load', function() {
+                filePreview.setAttribute('src', this.result);
+                uploadPrompt.style.display = 'none';
+                previewContainer.style.display = 'block';
+            });
+            reader.readAsDataURL(file);
+        }
+    });
+
+    clearFileBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        imageInput.value = '';
+        filePreview.setAttribute('src', '#');
+        previewContainer.style.display = 'none';
+        uploadPrompt.style.display = 'flex';
+    });
+
+    // Drag-and-drop feedback states
+    ['dragenter', 'dragover'].forEach(eventName => {
+        dropZone.addEventListener(eventName, () => dropZone.classList.add('drag-active'), false);
+    });
+    ['dragleave', 'drop'].forEach(eventName => {
+        dropZone.addEventListener(eventName, () => dropZone.classList.remove('drag-active'), false);
+    });
+</script>
+{% endblock %}

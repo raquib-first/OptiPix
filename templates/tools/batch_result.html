@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Batch Processing Complete | OptiPix{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'tools/batch_result.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="result-container">
+
+    <div class="result-header">
+        <div class="success-radial-badge">🚀</div>
+        <h1>Batch Processing Complete</h1>
+        <p>Your uploaded images have been successfully edited, packed together, and saved into a compressed ZIP folder.</p>
+    </div>
+
+    <div class="inventory-card-deck">
+        <div class="deck-header-row">
+            <h3 class="deck-title">Processed Images</h3>
+            <span class="count-badge">{{ files|length }} Files</span>
+        </div>
+        
+        <div class="table-scroll-container">
+            <table class="asset-registry-table">
+                <thead>
+                    <tr>
+                        <th>File Name</th>
+                        <th class="table-align-right">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for file in files %}
+                    <tr>
+                        <td>
+                            <div class="asset-meta-cell">
+                                <span class="asset-type-icon"><i class="fas fa-image"></i></span>
+                                <span class="asset-filename" title="{{ file }}">{{ file }}</span>
+                            </div>
+                        </td>
+                        <td class="table-align-right">
+                            <span class="status-pill success-pill">Ready</span>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="2" class="empty-state-fallback">No processed images found from this session.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="action-footer-panel">
+        <div class="action-flex-wrapper">
+            <p class="action-context-hint">All your edited images have been grouped together into a single ZIP file to make downloading faster and save space.</p>
+            
+            <div class="button-action-group">
+                <a href="{% url 'batch' %}" class="btn-secondary">
+                    <span>Process Another Batch</span>
+                </a>
+                <a href="/{{ zip_file }}" download class="btn-primary-highlight">
+                    <span class="btn-icon"><i class="fas fa-download"></i></span>
+                    <span>Download All Images (.ZIP)</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

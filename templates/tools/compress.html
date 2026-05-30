@@ -1,0 +1,186 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Compress Image | OptiPix{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'tools/compress.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="tool-container">
+    
+    <!-- Header Block -->
+    <div class="tool-header">
+        <div class="tool-badge"><i class="fas fa-compress-alt"></i> IMAGE OPTIMIZER</div>
+        <h1>Compress Your Image</h1>
+        <p>Reduce file size quickly and easily. Lower your image's storage footprint while keeping excellent visual quality.</p>
+    </div>
+
+    <!-- Main Engine Card -->
+    <div class="tool-card-main">
+        <form method="POST" enctype="multipart/form-data" class="upload-form" id="compress-form">
+            {% csrf_token %}
+            
+            <!-- Interactive Drag and Drop Area -->
+            <div class="upload-area" id="drop-zone">
+                <div class="upload-glow"></div>
+                <div class="upload-content-wrapper">
+                    <div class="upload-icon-container">
+                        <i class="fas fa-cloud-upload-alt main-icon"></i>
+                        <i class="fas fa-file-image success-icon"></i>
+                    </div>
+                    <p class="upload-prompt">Drag & drop your image here or <span class="browse-call">browse files</span></p>
+                    <p class="upload-constraints">Supported formats: JPEG, PNG, WEBP, TIFF</p>
+                    <input type="file" name="image" id="file-input" accept="image/*" required class="hidden-input">
+                    
+                    <!-- Dynamic File Data Meta Panel -->
+                    <div id="file-meta-panel" class="file-meta-panel">
+                        <div class="meta-row">
+                            <span class="meta-label">File Name:</span>
+                            <span id="file-name-display" class="meta-value"></span>
+                        </div>
+                        <div class="meta-row">
+                            <span class="meta-label">Original Size:</span>
+                            <span id="file-size-display" class="meta-value"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pipeline Parameters Block -->
+            <div class="settings-grid">
+                <div class="setting-item">
+                    <div class="setting-label-row">
+                        <label for="quality-range">
+                            <i class="fas fa-sliders"></i> <strong>Target Image Quality</strong>
+                        </label>
+                        <div class="value-bubble">
+                            <span id="quality-val">80</span><span class="unit">%</span>
+                        </div>
+                    </div>
+                    <p class="hint">Set your preferred quality level. Lower values make smaller files but reduce crispness slightly.</p>
+                    
+                    <div class="input-wrapper">
+                        <span class="range-bound">10%</span>
+                        <input type="range" name="quality" id="quality-range" value="80" min="10" max="100" step="1">
+                        <span class="range-bound">100%</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Engine Execution Action -->
+            <button type="submit" class="btn-action" id="submit-btn">
+                <span class="btn-text">Compress Image</span>
+                <span class="btn-icon"><i class="fas fa-bolt"></i></span>
+                <div class="loading-spinner"></div>
+            </button>
+        </form>
+    </div>
+
+    <!-- Feature Info Footer -->
+    <div class="tool-footer-info">
+        <div class="info-item">
+            <div class="info-icon-wrapper"><i class="fas fa-shield-alt"></i></div>
+            <div class="info-text">
+                <h5>Safe & Secure</h5>
+                <p>Your images are processed securely and temporarily in memory before being compiled on our end.</p>
+            </div>
+        </div>
+        <div class="info-item">
+            <div class="info-icon-wrapper"><i class="fas fa-tachometer-alt"></i></div>
+            <div class="info-text">
+                <h5>Real-Time Savings</h5>
+                <p>Our optimizer accurately calculates precise weight reductions down to the exact kilobyte instantly.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const fileInput = document.getElementById('file-input');
+        const nameDisplay = document.getElementById('file-name-display');
+        const sizeDisplay = document.getElementById('file-size-display');
+        const metaPanel = document.getElementById('file-meta-panel');
+        const dropZone = document.getElementById('drop-zone');
+        const qualityRange = document.getElementById('quality-range');
+        const qualityVal = document.getElementById('quality-val');
+        const compressForm = document.getElementById('compress-form');
+
+        // Dynamic slider monitoring
+        qualityRange.addEventListener('input', (e) => {
+            qualityVal.textContent = e.target.value;
+        });
+
+        // Click-through activation for file portal
+        dropZone.addEventListener('click', (e) => {
+            if (e.target !== qualityRange && !qualityRange.contains(e.target)) {
+                fileInput.click();
+            }
+        });
+
+        // Prevent layout events for file drag loops
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+            }, false);
+        });
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropZone.addEventListener(eventName, () => {
+                dropZone.classList.add('drag-over');
+            }, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, () => {
+                dropZone.classList.remove('drag-over');
+            }, false);
+        });
+
+        // Capture dropped assets
+        dropZone.addEventListener('drop', (e) => {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            if (files.length > 0) {
+                fileInput.files = files;
+                renderFileMetrics(files[0]);
+            }
+        });
+
+        // Monitor stream selection modifications
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                renderFileMetrics(e.target.files[0]);
+            }
+        });
+
+        // Read binary size allocations
+        function renderFileMetrics(file) {
+            nameDisplay.textContent = file.name;
+            
+            // Format bytes to readable string
+            const sizeInKB = file.size / 1024;
+            if (sizeInKB > 1024) {
+                sizeDisplay.textContent = `${(sizeInKB / 1024).toFixed(2)} MB`;
+            } else {
+                sizeDisplay.textContent = `${sizeInKB.toFixed(2)} KB`;
+            }
+
+            dropZone.classList.add('has-file');
+            metaPanel.classList.add('visible');
+        }
+
+        // Handle processing visual states during postback submissions
+        compressForm.addEventListener('submit', () => {
+            const btn = document.getElementById('submit-btn');
+            btn.classList.add('processing');
+            btn.querySelector('.btn-text').textContent = 'Compressing your image...';
+        });
+    });
+</script>
+{% endblock %}

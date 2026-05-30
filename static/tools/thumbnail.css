@@ -1,0 +1,267 @@
+/* ==========================================================================
+   1. STRUCTURAL WRAPPERS & HEADERS
+   ========================================================================== */
+
+   .form-main-container {
+    max-width: 680px;
+    margin: 60px auto;
+    padding: 0 20px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.form-header-zone {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.form-header-zone h1 {
+    font-size: 2.2rem;
+    color: #d2d7e2;
+    font-weight: 800;
+    margin: 8px 0;
+    letter-spacing: -0.5px;
+}
+
+.form-header-zone p {
+    color: #d3dae4;
+    font-size: 1.05rem;
+    line-height: 1.6;
+    margin: 0;
+}
+
+.pipeline-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(0, 98, 255, 0.06);
+    color: #0062ff;
+    border: 1px solid rgba(0, 98, 255, 0.12);
+    padding: 6px 14px;
+    border-radius: 100px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+}
+
+
+/* ==========================================================================
+   2. PROCESSING FORM CARD & CUSTOM DROPZONE
+   ========================================================================== */
+
+.processing-form-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 24px;
+    padding: 32px;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.01);
+}
+
+/* File Dropzone Mechanics */
+.file-upload-dropzone {
+    position: relative;
+    border: 2px dashed #cbd5e1;
+    background: #f8fafc;
+    border-radius: 16px;
+    padding: 40px 20px;
+    text-align: center;
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.file-upload-dropzone:hover, 
+.file-upload-dropzone.highlight-drag {
+    border-color: #0062ff;
+    background: rgba(0, 98, 255, 0.01);
+}
+
+.file-upload-dropzone input[type="file"] {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+    z-index: 3;
+}
+
+/* Dropzone Inner Content Typography */
+.dropzone-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.cloud-icon {
+    font-size: 2.5rem;
+    color: #94a3b8;
+    transition: color 0.2s ease;
+}
+
+.file-upload-dropzone:hover .cloud-icon {
+    color: #0062ff;
+}
+
+.main-upload-text {
+    font-size: 1.05rem;
+    color: #334155;
+    font-weight: 600;
+}
+
+.main-upload-text .highlight {
+    color: #0062ff;
+    text-decoration: underline;
+}
+
+.sub-upload-text {
+    font-size: 0.8rem;
+    color: #64748b;
+}
+
+/* Dynamic State Activation Feedback overlay */
+.file-selected-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #0f172a;
+    color: #e2e8f0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    transform: translateY(105%);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 2;
+    padding: 0 24px;
+    box-sizing: border-box;
+}
+
+.file-selected-overlay.is-active {
+    transform: translateY(0);
+}
+
+.file-selected-overlay i {
+    font-size: 2rem;
+    color: #38bdf8;
+}
+
+.file-selected-overlay span {
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-align: center;
+    word-break: break-all;
+}
+
+
+/* ==========================================================================
+   3. FORM DIMENSIONS CONFIGURATION LAYER
+   ========================================================================== */
+
+.dimension-fields-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin: 28px 0;
+}
+
+.input-control-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.input-control-group label {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #475569;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+}
+
+.input-control-group label .muted {
+    text-transform: lowercase;
+    font-weight: 400;
+    color: #94a3b8;
+}
+
+.input-control-group input {
+    width: 100%;
+    padding: 12px 16px;
+    border-radius: 10px;
+    border: 1px solid #cbd5e1;
+    font-size: 1rem;
+    color: #0f172a;
+    background: #ffffff;
+    box-sizing: border-box;
+    transition: all 0.15s ease-in-out;
+}
+
+.input-control-group input:focus {
+    outline: none;
+    border-color: #0062ff;
+    box-shadow: 0 0 0 4px rgba(0, 98, 255, 0.12);
+}
+
+
+/* ==========================================================================
+   4. PIPELINE EXECUTION TRIGGERS
+   ========================================================================== */
+
+.form-actions-row {
+    margin-top: 8px;
+}
+
+.btn-pipeline-submit {
+    width: 100%;
+    padding: 16px 24px;
+    background: linear-gradient(135deg, #0062ff 0%, #004ecc 100%);
+    color: #ffffff;
+    border: none;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: all 0.2s ease-in-out;
+    box-shadow: 0 4px 12px rgba(0, 98, 255, 0.15);
+}
+
+.btn-pipeline-submit:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 20px rgba(0, 98, 255, 0.25);
+}
+
+.btn-pipeline-submit:active {
+    transform: translateY(1px);
+}
+
+
+/* ==========================================================================
+   5. RESPONSIVE SCALE ADJUSTMENTS
+   ========================================================================== */
+
+@media (max-width: 520px) {
+    .processing-form-card {
+        padding: 20px;
+    }
+    
+    .dimension-fields-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+    
+    .form-header-zone h1 {
+        font-size: 1.75rem;
+    }
+}

@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Batch Image Processing | OptiPix{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'tools/batch.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="tool-container">
+
+    <!-- Header Section -->
+    <div class="tool-header">
+        <h1>Batch Image Processor</h1>
+        <p>Compress or convert formats for multiple images at the same time.</p>
+    </div>
+
+    <!-- Main Tool Card Workspace -->
+    <div class="tool-card-main">
+        <form method="POST" enctype="multipart/form-data" class="upload-form">
+            {% csrf_token %}
+
+            <!-- Multi-File Selection Upload Drop-Zone -->
+            <div class="upload-area" id="drop-zone">
+                <div class="upload-icon"><i class="fas fa-images"></i></div>
+                <p>Drag & drop your files here or <span class="browse-link">browse files</span></p>
+                <input type="file" name="images" id="file-input" multiple accept="image/*" required class="hidden-input">
+                <div id="file-count-display" class="file-name"></div>
+            </div>
+
+            <!-- Form Configuration Parameters -->
+            <div class="form-body">
+                
+                <!-- Primary Action Mode Selection -->
+                <div class="field-group">
+                    <label class="section-label" for="operation">Choose Action</label>
+                    <div class="select-wrapper">
+                        <select name="operation" id="operation" onchange="toggleBatchPanels()" required>
+                            <option value="compress">Batch Compression</option>
+                            <option value="convert">Batch Conversion</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Conditional Config Panel 1: Quality Slider Node -->
+                <div id="quality-panel" class="mode-panel">
+                    <div class="field-group">
+                        <label for="quality">Compression Quality</label>
+                        <div class="num-suffix-wrapper">
+                            <input type="number" name="quality" id="quality" min="1" max="100" value="80">
+                            <span class="field-suffix">%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Conditional Config Panel 2: Target Format Selection -->
+                <div id="format-panel" class="mode-panel hidden-panel">
+                    <div class="field-group">
+                        <label for="format">Convert to Format</label>
+                        <div class="select-wrapper">
+                            <select name="format" id="format">
+                                <option value="JPEG">JPG / JPEG</option>
+                                <option value="PNG">PNG Image</option>
+                                <option value="WEBP">WebP (Optimized for Web)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Execution Action Trigger Button -->
+            <button type="submit" class="btn-action">
+                <span>Start Batch Process</span>
+                <span class="icon"><i class="fas fa-cog animate-spin"></i></span>
+            </button>
+        </form>
+    </div>
+
+</div>
+
+<script>
+// Toggle configuration parameters contextually based on operation target
+function toggleBatchPanels() {
+    const operation = document.getElementById("operation").value;
+    const qualityPanel = document.getElementById("quality-panel");
+    const formatPanel = document.getElementById("format-panel");
+
+    if (operation === "compress") {
+        qualityPanel.classList.remove("hidden-panel");
+        formatPanel.classList.add("hidden-panel");
+    } else {
+        qualityPanel.classList.add("hidden-panel");
+        formatPanel.classList.remove("hidden-panel");
+    }
+}
+
+// Track file selection arrays inside drop zone labels
+document.getElementById('file-input').addEventListener('change', function(e){
+    const dropZone = document.getElementById('drop-zone');
+    const display = document.getElementById('file-count-display');
+    const count = e.target.files.length;
+    
+    if(count > 0){
+        display.innerText = `${count} image${count > 1 ? 's' : ''} selected and ready.`;
+        dropZone.classList.add('active');
+    }
+});
+
+// Simple click handler to bridge drop zone box clicks to hidden field input
+document.getElementById('drop-zone').addEventListener('click', () => {
+    document.getElementById('file-input').click();
+});
+</script>
+{% endblock %}

@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Enhancement Result | OptiPix{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'tools/enhance_result.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="result-container">
+    
+    <div class="result-header">
+        <div class="success-spark-badge"><i class="fas fa-magic"></i> IMAGE ENHANCED SUCCESSFULLY</div>
+        <h1>Your Enhanced Image is Ready</h1>
+        <p>Settings used — Brightness: <strong>{{ brightness }}x</strong> | Contrast: <strong>{{ contrast }}x</strong></p>
+    </div>
+
+    <div class="performance-metrics-banner">
+        <div class="metric-row-wrapper">
+            <div class="metric-block">
+                <span class="block-title"><i class="fas fa-image"></i> Original Size</span>
+                <span class="block-value">{{ obj.original_size }} <span class="size-unit">KB</span></span>
+            </div>
+            
+            <div class="metric-divider"><i class="fas fa-chevron-right"></i></div>
+
+            <div class="metric-block">
+                <span class="block-title"><i class="fas fa-bolt"></i> New Size</span>
+                <span class="block-value color-success">{{ obj.compressed_size }} <span class="size-unit">KB</span></span>
+            </div>
+
+            <div class="metric-divider mobile-hide">|</div>
+
+            <div class="metric-block">
+                <span class="block-title"><i class="fas fa-chart-line"></i> Space Saved</span>
+                <span class="block-value color-primary">{{ obj.compression_percentage }}%</span>
+            </div>
+        </div>
+        
+        <div class="efficiency-track">
+            <div class="efficiency-bar" style="width: {% if obj.compression_percentage > 0 %}{{ obj.compression_percentage }}{% else %}100{% endif %}%"></div>
+        </div>
+    </div>
+
+    <h3 class="panel-section-title"><i class="fas fa-eye"></i> Before & After Comparison</h3>
+    
+    <div class="images-preview-grid">
+        <div class="image-preview-card">
+            <div class="card-badge bg-gray">Original Image</div>
+            <div class="preview-frame">
+                <img src="{{ obj.original_image.url }}" alt="Original Image">
+            </div>
+        </div>
+        
+        <div class="image-preview-card">
+            <div class="card-badge bg-blue">Enhanced Result</div>
+            <div class="preview-frame">
+                <img src="{{ obj.processed_image.url }}" alt="Enhanced Result">
+            </div>
+        </div>
+    </div>
+
+    <div class="control-footer-row">
+        <a href="{% url 'enhance' %}" class="btn-action-dim">
+            <i class="fas fa-arrow-left"></i> <span>Tune Another Image</span>
+        </a>
+        <a href="{{ obj.processed_image.url }}" download class="btn-action-bright">
+            <span>Download Enhanced Image</span>
+            <span class="action-icon"><i class="fas fa-download"></i></span>
+        </a>
+    </div>
+
+</div>
+{% endblock %}

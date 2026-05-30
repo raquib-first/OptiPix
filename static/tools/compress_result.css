@@ -1,0 +1,213 @@
+/* --- Document Framework Anchors --- */
+.result-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem 0;
+    background-color: #fafbff;
+}
+
+/* --- Contextual Header Elements (Visibility Safeguards Active) --- */
+.result-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.success-spark-badge {
+    width: 56px;
+    height: 56px;
+    background: #eff6ff;
+    color: #0062ff;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1.2rem;
+    box-shadow: 0 4px 12px rgba(0, 98, 255, 0.1);
+}
+
+.result-header h1 {
+    font-size: 2.2rem;
+    color: #0f172a !important; /* Explicit Contrast Safeguard */
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.5px;
+    font-weight: 700;
+    display: block;
+}
+
+.result-header p {
+    color: #475569 !important; /* Explicit Contrast Safeguard */
+    font-size: 1.05rem;
+    line-height: 1.5;
+    display: block;
+}
+
+/* --- Horizontal Optimization Performance Banner --- */
+.performance-metrics-banner {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 20px;
+    padding: 1.75rem 2.5rem;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.03);
+    margin-bottom: 3rem;
+}
+
+.metric-row-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.metric-block {
+    display: flex;
+    flex-direction: column;
+}
+
+.yield-block {
+    text-align: right;
+}
+
+.block-title {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #64748b;
+    font-weight: 700;
+    margin-bottom: 0.35rem;
+}
+
+.block-value {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: #1e293b;
+}
+
+.metric-divider {
+    font-size: 1.5rem;
+    color: #cbd5e1;
+    font-weight: 300;
+}
+
+.color-success { color: #16a34a !important; }
+.color-primary { color: #0062ff !important; }
+
+/* --- Side-by-Side Verification Engine Matrix --- */
+.panel-section-title {
+    font-size: 1.25rem;
+    color: #0f172a;
+    margin-bottom: 1.5rem;
+    font-weight: 700;
+}
+
+.comparison-matrix-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 3.5rem;
+}
+
+.comparison-card {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 1.2rem;
+    border: 1px solid #e2e8f0;
+    position: relative;
+}
+
+.card-context-badge {
+    position: absolute;
+    top: 1.8rem;
+    left: 1.8rem;
+    background: rgba(15, 23, 42, 0.8);
+    color: #ffffff;
+    backdrop-filter: blur(4px);
+    padding: 4px 14px;
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    z-index: 10;
+}
+
+.optimal-badge {
+    background: rgba(22, 163, 74, 0.9);
+}
+
+.asset-display-frame {
+    width: 100%;
+    height: 340px;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #f8fafc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.asset-display-frame img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    display: block;
+}
+
+/* --- Control Alignment Footprint --- */
+.control-footer-row {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1.2rem;
+    border-top: 1px solid #e2e8f0;
+    padding-top: 2rem;
+}
+
+.btn-action-bright, .btn-action-dim {
+    padding: 1rem 2rem;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 700;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.2s ease-in-out;
+}
+
+.btn-action-bright {
+    background: #0062ff;
+    color: #ffffff !important;
+}
+
+.btn-action-bright:hover {
+    background: #004ecc;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 98, 255, 0.25);
+}
+
+.btn-action-dim {
+    background: transparent;
+    color: #475569 !important;
+    border: 1px solid #e2e8f0;
+}
+
+.btn-action-dim:hover {
+    background: #f8fafc;
+    color: #0f172a !important;
+    border-color: #cbd5e1;
+}
+
+.action-icon {
+    font-size: 1.1rem;
+}
+
+/* --- Adaptability Responsiveness Transitions --- */
+@media (max-width: 768px) {
+    .metric-row-wrapper { flex-direction: column; align-items: flex-start; gap: 1.2rem; }
+    .metric-divider { display: none; }
+    .mobile-hide { display: none; }
+    .yield-block { text-align: left; border-top: 1px dashed #e2e8f0; padding-top: 1rem; width: 100%; }
+    .comparison-matrix-grid { grid-template-columns: 1fr; }
+    .asset-display-frame { height: 280px; }
+    .control-footer-row { flex-direction: column-reverse; }
+    .btn-action-bright, .btn-action-dim { justify-content: center; width: 100%; }
+}

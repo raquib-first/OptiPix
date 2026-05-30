@@ -1,0 +1,88 @@
+{% extends 'home.html' %}
+{% load static %}
+
+{% block title %}Convert Image Format | OptiPix{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'tools/convert.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="tool-container">
+
+    <!-- Header Section -->
+    <div class="tool-header">
+        <h1>Convert Image Format</h1>
+        <p>Easily switch your images between popular web and high-quality file formats.</p>
+    </div>
+
+    <!-- Main Tool Card Workspace -->
+    <div class="tool-card-main">
+        <form method="POST" enctype="multipart/form-data" class="upload-form">
+            {% csrf_token %}
+
+            <!-- Interactive File Upload Drop-Zone -->
+            <div class="upload-area" id="drop-zone">
+                <div class="upload-icon">🔄</div>
+                <p>Drag & drop your image here or <span>browse files</span></p>
+                <input type="file" name="image" id="file-input" accept="image/*" required class="hidden-input">
+                <div id="file-name-display" class="file-name"></div>
+            </div>
+
+            <!-- Form Body Configuration Setup -->
+            <div class="form-body">
+                
+                <!-- Target Output Extension Field Group -->
+                <div class="field-group">
+                    <label class="section-label" for="format">Convert To</label>
+                    <div class="select-wrapper">
+                        <select name="format" id="format" required>
+                            <option value="JPEG">JPEG (Standard High-Quality Image)</option>
+                            <option value="PNG">PNG (Supports Transparent Backgrounds)</option>
+                            <option value="WEBP">WEBP (Optimized Modern Web Format)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Platform Hint Notice -->
+                <div class="info-alert-box">
+                    <span class="info-badge-icon">ℹ</span>
+                    <p>
+                        <strong>Supported Formats:</strong> You can upload JPG, PNG, GIF, BMP, and TIFF files. Animated or complex images (like multi-frame GIFs or heavy TIFF files) will automatically be converted to a clean, static image format before changing types.
+                    </p>
+                </div>
+
+                <!-- Processing Error Alert -->
+                {% if error %}
+                    <div class="error-alert-box">
+                        <span class="error-icon">⚠️</span>
+                        <div class="error-text">
+                            <strong>Conversion Error:</strong> {{ error }}
+                        </div>
+                    </div>
+                {% endif %}
+
+            </div>
+
+            <!-- Execution Action Trigger Button -->
+            <button type="submit" class="btn-action">
+                <span>Convert Image</span>
+                <span class="icon">🚀</span>
+            </button>
+        </form>
+    </div>
+
+</div>
+
+<script>
+// Capture and show selected file names inside the drop zone
+document.getElementById('file-input').addEventListener('change', function(e){
+    const dropZone = document.getElementById('drop-zone');
+    const display = document.getElementById('file-name-display');
+    if(e.target.files.length > 0){
+        display.innerText = `Selected File: ${e.target.files[0].name}`;
+        dropZone.classList.add('active');
+    }
+});
+</script>
+{% endblock %}

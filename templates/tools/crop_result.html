@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Crop Result | OptiPix{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'tools/crop_result.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="result-container">
+    
+    <!-- Header Section -->
+    <div class="result-header">
+        <div class="success-spark-badge"><i class="fas fa-check-circle"></i> IMAGE CROPPED SUCCESSFULLY</div>
+        <h1>Your Cropped Image is Ready</h1>
+        <p>Your image has been cut down to your chosen aspect ratio ({{ ratio }}) and optimized to save space.</p>
+    </div>
+
+    <!-- Results Summary Banner -->
+    <div class="performance-metrics-banner">
+        <div class="metric-row-wrapper">
+            <div class="metric-block">
+                <span class="block-title"><i class="fas fa-image"></i> Original Size</span>
+                <span class="block-value">{{ obj.original_size }} <span class="size-unit">KB</span></span>
+            </div>
+            
+            <div class="metric-divider"><i class="fas fa-chevron-right"></i></div>
+
+            <div class="metric-block">
+                <span class="block-title"><i class="fas fa-crop"></i> New Size</span>
+                <span class="block-value color-success">{{ obj.compressed_size }} <span class="size-unit">KB</span></span>
+            </div>
+
+            <div class="metric-divider mobile-hide">|</div>
+
+            <div class="metric-block">
+                <span class="block-title"><i class="fas fa-chart-line"></i> Space Saved</span>
+                <span class="block-value color-primary">{{ obj.compression_percentage }}%</span>
+            </div>
+        </div>
+        
+        <div class="efficiency-track">
+            <div class="efficiency-bar" style="width: {{ obj.compression_percentage }}%"></div>
+        </div>
+    </div>
+
+    <!-- Image Preview Grid Layout -->
+    <h3 class="panel-section-title"><i class="fas fa-eye"></i> Before & After Comparison</h3>
+    
+    <div class="images-preview-grid">
+        <!-- Original Frame Box -->
+        <div class="image-preview-card">
+            <div class="card-badge bg-gray">Before Cropping</div>
+            <div class="preview-frame">
+                <img src="{{ obj.original_image.url }}" alt="Original Image">
+            </div>
+        </div>
+        
+        <!-- Cropped Frame Box -->
+        <div class="image-preview-card">
+            <div class="card-badge bg-blue">Cropped Result ({{ ratio }})</div>
+            <div class="preview-frame">
+                <img src="{{ obj.processed_image.url }}" alt="Cropped Result">
+            </div>
+        </div>
+    </div>
+
+    <!-- Action Buttons Footer -->
+    <div class="control-footer-row">
+        <a href="{% url 'crop' %}" class="btn-action-dim">
+            <i class="fas fa-arrow-left"></i> <span>Crop Another Image</span>
+        </a>
+        <a href="{{ obj.processed_image.url }}" download class="btn-action-bright">
+            <span>Download Cropped Image</span>
+            <span class="action-icon"><i class="fas fa-download"></i></span>
+        </a>
+    </div>
+
+</div>
+{% endblock %}

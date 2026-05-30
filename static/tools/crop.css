@@ -1,0 +1,327 @@
+/* ==========================================================================
+   1. LAYOUT STRUCTURAL WRAPPERS
+   ========================================================================== */
+
+   .form-main-container {
+    max-width: 680px;
+    margin: 60px auto;
+    padding: 0 20px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.form-header-zone {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+/* Add this to your tools/crop.css file */
+
+.form-header-zone h1 {
+    color: #ffffff; /* Forces the main heading to bright white */
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.form-header-zone p {
+    color: #a0aec0; /* A crisp, readable light-gray for subtext */
+    font-size: 1.1rem;
+    line-height: 1.5;
+}
+
+.pipeline-tag {
+    color: #38bdf8; /* Accent color (e.g., bright sky blue) for the small tag */
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    margin-bottom: 12px;
+}
+
+.pipeline-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(0, 98, 255, 0.06);
+    color: #0062ff;
+    border: 1px solid rgba(0, 98, 255, 0.12);
+    padding: 6px 14px;
+    border-radius: 100px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+}
+
+
+/* ==========================================================================
+   2. INTERACTIVE UPLOAD BOX
+   ========================================================================== */
+
+.processing-form-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 24px;
+    padding: 32px;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05);
+}
+
+.file-upload-dropzone {
+    position: relative;
+    border: 2px dashed #cbd5e1;
+    background: #f8fafc;
+    border-radius: 16px;
+    padding: 40px 20px;
+    text-align: center;
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.file-upload-dropzone:hover, 
+.file-upload-dropzone.highlight-drag {
+    border-color: #0062ff;
+    background: rgba(0, 98, 255, 0.01);
+}
+
+.file-upload-dropzone input[type="file"] {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+    z-index: 3;
+}
+
+.dropzone-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.cloud-icon {
+    font-size: 2.5rem;
+    color: #94a3b8;
+    transition: color 0.2s ease;
+}
+
+.file-upload-dropzone:hover .cloud-icon {
+    color: #0062ff;
+}
+
+.main-upload-text {
+    font-size: 1.05rem;
+    color: #334155;
+    font-weight: 600;
+}
+
+.main-upload-text .highlight {
+    color: #0062ff;
+    text-decoration: underline;
+}
+
+.sub-upload-text {
+    font-size: 0.8rem;
+    color: #64748b;
+}
+
+.file-selected-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #0f172a;
+    color: #e2e8f0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    transform: translateY(105%);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 2;
+    padding: 0 24px;
+    box-sizing: border-box;
+}
+
+.file-selected-overlay.is-active {
+    transform: translateY(0);
+}
+
+.file-selected-overlay i {
+    font-size: 2rem;
+    color: #38bdf8;
+}
+
+.file-selected-overlay span {
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-align: center;
+    word-break: break-all;
+}
+
+
+/* ==========================================================================
+   3. CROP SELECTION CONFIGURATION & LIVE HINT BOX
+   ========================================================================== */
+
+.crop-config-row {
+    display: grid;
+    grid-template-columns: 1fr 140px;
+    gap: 24px;
+    margin: 28px 0;
+    align-items: end;
+}
+
+.input-control-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.input-control-group label {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #475569;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+}
+
+/* Custom Dropdown Selection Layout Styling */
+.select-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.select-wrapper select {
+    width: 100%;
+    padding: 14px 16px;
+    border-radius: 12px;
+    border: 1px solid #cbd5e1;
+    font-size: 1rem;
+    color: #0f172a;
+    background: #ffffff;
+    box-sizing: border-box;
+    appearance: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.15s ease-in-out;
+}
+
+.select-wrapper select:focus {
+    outline: none;
+    border-color: #0062ff;
+    box-shadow: 0 0 0 4px rgba(0, 98, 255, 0.12);
+}
+
+.select-arrow {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #64748b;
+    pointer-events: none;
+    font-size: 0.85rem;
+}
+
+/* Live Interactive Shape Hint Settings */
+.ratio-preview-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.preview-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.aspect-ratio-box-wrapper {
+    width: 100%;
+    height: 80px;
+    background: #f1f5f9;
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 8px;
+    box-sizing: border-box;
+    border: 1px dashed #e2e8f0;
+}
+
+.dynamic-ratio-box {
+    background: #0f172a;
+    border-radius: 4px;
+    border: 2px solid #38bdf8;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Precise CSS Dimension Hints for the Script Box */
+.ratio-1-1  { width: 50px; height: 50px; }
+.ratio-16-9 { width: 70px; height: 39px; }
+.ratio-9-16 { width: 36px; height: 64px; }
+.ratio-4-3  { width: 64px; height: 48px; }
+
+
+/* ==========================================================================
+   4. SUBMIT OPERATIONS BUTTON
+   ========================================================================== */
+
+.btn-pipeline-submit {
+    width: 100%;
+    padding: 16px 24px;
+    background: linear-gradient(135deg, #0062ff 0%, #004ecc 100%);
+    color: #ffffff;
+    border: none;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: all 0.2s ease-in-out;
+    box-shadow: 0 4px 12px rgba(0, 98, 255, 0.15);
+}
+
+.btn-pipeline-submit:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 20px rgba(0, 98, 255, 0.25);
+}
+
+.btn-pipeline-submit:active {
+    transform: translateY(1px);
+}
+
+
+/* ==========================================================================
+   5. DEVICE ADAPTATIONS
+   ========================================================================== */
+
+@media (max-width: 540px) {
+    .processing-form-card {
+        padding: 20px;
+    }
+    
+    .crop-config-row {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .aspect-ratio-box-wrapper {
+        height: 100px;
+    }
+    
+    .form-header-zone h1 {
+        font-size: 1.75rem;
+    }
+}
