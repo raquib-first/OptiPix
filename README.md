@@ -74,5 +74,6 @@ pixels[px, py] = (min(255, tr), min(255, tg), min(255, tb))
 ## Project report 
 https://drive.google.com/drive/folders/1N9ta3M3L2C9oaPmH2RHZorJKTVgbgJXg?usp=sharing
 
-## project hosting
+## Web Link
+https://optipix.onrender.com
 
